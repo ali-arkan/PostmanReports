@@ -25,9 +25,16 @@ jobs:
           newman run "Restful Booker BVT.postman_collection.json" \
             -e Restful_Booker_Prod.postman_environment.json \
             --reporters cli,htmlextra \
-            --reporter-htmlextra-export newman-results.html
+            --reporter-htmlextra-export newman-results.html \
+            --suppress-exit-code
       - name: Upload Newman results
         uses: actions/upload-artifact@v3
+        if: always()
         with:
           name: newman-results
           path: newman-results.html
+      - name: Check for test failures
+        if: failure()
+        run: |
+          echo "Newman tests failed. Please check the Newman results for more details."
+          exit 1
