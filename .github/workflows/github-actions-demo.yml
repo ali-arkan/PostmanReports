@@ -1,5 +1,3 @@
-# This is a basic workflow to help you get started with Actions
-
 name: API Tests
 
 on:
@@ -18,7 +16,18 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16'
-      - name: Install Newman
-        run: npm install -g newman
+      - name: Install Newman and Newman Reporter HTML
+        run: |
+          npm install -g newman
+          npm install -g newman-reporter-htmlextra
       - name: Run API tests
-        run: newman run "Restful Booker BVT.postman_collection.json" -e Restful_Booker_Prod.postman_environment.json
+        run: |
+          newman run "Restful Booker BVT.postman_collection.json" \
+            -e Restful_Booker_Prod.postman_environment.json \
+            --reporters cli,htmlextra \
+            --reporter-htmlextra-export newman-results.html
+      - name: Upload Newman results
+        uses: actions/upload-artifact@v3
+        with:
+          name: newman-results
+          path: newman-results.html
