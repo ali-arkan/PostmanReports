@@ -88,7 +88,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{rb_url}}/booking?firstname={{searchName}}",
+							"raw": "{{rb_url}}/booking?firstname={{$randomFirstName}}",
 							"host": [
 								"{{rb_url}}"
 							],
@@ -98,7 +98,7 @@
 							"query": [
 								{
 									"key": "firstname",
-									"value": "{{searchName}}"
+									"value": "{{$randomFirstName}}"
 								}
 							]
 						}
